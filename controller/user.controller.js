@@ -17,13 +17,14 @@ exports.singup = async (req, res) => {
     console.log('profileimagew:', req.body.ProfileImage); // Debugging line
     
     let hashPassword = await bcrypt.hash(req.body.password, 10);
-    user = await User.create({
-      ...req.body,
-      password: hashPassword,
-    })
     if(req.file){
       imagePath = req.file.path.replace(/\\/g,"/");
   }
+    user = await User.create({
+      ...req.body,
+      password: hashPassword,
+      ProfileImage : imagePath
+    })
     console.log("user",user);
     user.save();
     res.status(201).json({ msg: "User is register", user });
@@ -78,5 +79,35 @@ exports.getUser = async(req,res)=>{
   } catch (error) {
       console.log(error);
       res.status(500).json({msg:"internal Server error"})
+  }
+}
+
+/* ----------------------Update Users ------------------------- */
+
+exports.updateUser = async(req,res)=>{
+  try {
+    let user = req.user;
+    user =  await User.findByIdAndUpdate(
+        user._id,
+        {$set: req.body},
+        {new:true}
+      )
+      user.save();
+      res.status(201).json({msg:"User Updated...",user})
+  } catch (error) {
+    console.log(error);
+    res.status(500).josn({msg:"Internal Server Error"})
+  }
+}
+
+/* ---------------------- LogOut Users ------------------------- */
+
+exports.logout = async(req,res)=>{
+  try {
+      res.redirect('/api/user/login')
+      res.status(202).json({msg:"user logut, token "});
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({msg:"Internal Server Error"})
   }
 }
