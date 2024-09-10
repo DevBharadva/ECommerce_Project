@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const mongoose = require('mongoose');
 const userRotues = require('./routes/user.routes')
 const productRoutes = require('./routes/product.routes');
+const cartRotues = require('./routes/cart.routes');
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended:true}))
@@ -19,6 +20,7 @@ mongoose
 
 app.use('/api/user',userRotues)
 app.use('/api/product',productRoutes)
+app.use('/api/cart',cartRotues)
 
 app.listen(port,()=>{
     console.log('server started at http://localhost:5050');

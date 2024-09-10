@@ -13,6 +13,11 @@ const UserSchema  = mongoose.Schema({
     password:{
         type:String,
     },
+    role:{
+        type:String,
+        enum:['admin','user'],
+        default:'user'
+    },
     isDelete:{
         type:Boolean,
         default:false
