@@ -7,15 +7,18 @@ exports.addNewOrder = async (req, res) => {
     try {
         console.log("user: ->>>>", req.user);
         
-        let cart = await Cart.find({ user: req.user._id, isDelete: false }).populate("productId");
+        let cart = await Cart.find({ user: req.user._id}).populate("productId");
         console.log("Cart: ------> ",cart);
+        
         let orderItem = cart.map((item) => ({
             productId: item.productId._id,
             quantity: item.quantity,
             price: item.productId.productPrice,
             totalAmount: item.quantity * item.productId.productPrice
         }));
+
         console.log("Order Items: -----> ",orderItem);
+
         let amount = orderItem.reduce((total, item) => (total += item.totalAmount), 0);
         // console.log(amount);
         
@@ -24,6 +27,8 @@ exports.addNewOrder = async (req, res) => {
             item: orderItem,
             totalPrice: amount
         });
+        console.log(order);
+        
         await Cart.updateMany({ user: req.user._id, isDelete: false }, { isDelete: true });
         res.json({ message: 'order placed...', order });
     } catch (error) {

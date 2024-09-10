@@ -54,7 +54,6 @@ exports.getProduct = async  (req,res)=>{
 
 }
 
-<<<<<<< HEAD
 /* --------------Update Product --------------- */
 
 exports.updateProduct = async (req,res)=>{
@@ -78,8 +77,14 @@ exports.deleteProduct =  async (req,res)=>{
         let product = await Product.findOne({_id:req.params.userId},{isDelete:false});
         if(!product){
             return res.status(404).json({message:"Product Not Found..."});
-=======
-/* ------------Update  product---------- */
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({msg:"Internal Server Error"})
+    }
+}
+            /* ------------Update  product---------- */
 
 exports.UpdateProduct = async(req,res)=>{
     try {
@@ -102,24 +107,15 @@ exports.deleteProduct = async(req,res)=>{
         let product = await Product.findOne({_id:req.query.userId},{isDelete:false});
         if(!product){
             return res.status(404).json({msg:"Product Not found..."});
->>>>>>> d5184fb2413379b465c369c6c849e20582f2d8c3
         }
         product = await Product.findByIdAndUpdate(
             product._id,
             {$set:{isDelete:true}},
             {new:true}
-<<<<<<< HEAD
         );  
         res.status(200).json({product,message:"Product Delete Success"});  
     } catch (error) {
         console.log(error);
-        res.status(500).json({message:"Internal Server Error"})
-=======
-        );
-        res.status(201).josn({product,msg:"Product Deleted...!"})
-    } catch (error) {
-        console.log(error);
         res.status(500).josn({msg:"Internal Serer error..."})
->>>>>>> d5184fb2413379b465c369c6c849e20582f2d8c3
     }
 }

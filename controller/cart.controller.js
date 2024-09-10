@@ -52,7 +52,7 @@ exports.addToCart = async (req, res) => {
 
 exports.updateCart = async (req,res)=>{
     try {
-        let cart = await Cart.updateOne({_id:req.query.cartId},{$set:{quantity:+req.query.quantity}},{new:true});
+        let cart = await Cart.updateOne({_id:req.query.cartId},{$set:{quantity:+req.body.quantity}},{new:true});
         console.log(cart);
         if(!cart) {
             return res.status(404).json({msg:"Cart Not Found..."});

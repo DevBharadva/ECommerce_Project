@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const JsonWebToken = require("jsonwebtoken");
 const userservices = require("../services/user.service");
-const userservice = userservices;
+const userservice = new userservices();
 
 /* ----------------------User Registration------------------------- */
 
@@ -22,7 +22,6 @@ exports.singup = async (req, res) => {
     console.log("profileimagew:", req.body.ProfileImage); // Debugging line
 
     let hashPassword = await bcrypt.hash(req.body.password, 10);
-<<<<<<< HEAD
     user = await userservice.addNewUser({
       ...req.body,
       password: hashPassword,
@@ -31,7 +30,6 @@ exports.singup = async (req, res) => {
       imagePath = req.file.path.replace(/\\/g, "/");
     }
     console.log("user", user);
-=======
     if(req.file){
       imagePath = req.file.path.replace(/\\/g,"/");
   }
@@ -41,7 +39,6 @@ exports.singup = async (req, res) => {
       ProfileImage : imagePath
     })
     console.log("user",user);
->>>>>>> d5184fb2413379b465c369c6c849e20582f2d8c3
     user.save();
     res.status(201).json({ msg: "User is register", user });
   } catch (error) {
@@ -54,7 +51,7 @@ exports.singup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    let user = await userservice.findOne({
+    let user = await User.findOne({
       email: req.body.email,
       isDelete: false,
     });
@@ -80,11 +77,11 @@ exports.signin = async (req, res) => {
 
 exports.getallusers = async (req, res) => {
   try {
-    let users = await userservice.getAllUser({ isDelete: false });
+    let users = await userservice.getAllUser();
     res.status(200).json(users);
   } catch (error) {
     console.log(error);
-    res.stauts(500).json({ msg: "internal Server error" });
+    res.status(500).json({ msg: "internal Server error" });
   }
 };
 
