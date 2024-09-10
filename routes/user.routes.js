@@ -1,8 +1,8 @@
 const express =  require('express');
 const userRoutes = express.Router();
-const { singup, signin, getallusers, getUser } = require('../controller/user.controller');
-// const userverify = require('../helper/tokenVerify')
-const upload = require('../helper/userimage')
+const { singup, signin, getallusers, getUser, logout, updateUser } = require('../controller/user.controller');
+const {userverify} = require('../helper/tokenVerify')
+const {upload} = require('../helper/userimage')
 
 /* -------User => Register----- */
 userRoutes.post('/register', upload.single('ProfileImage'),singup)
@@ -17,5 +17,12 @@ userRoutes.get('/getAll',getallusers)
 /* Get => User */
 
 userRoutes.get('/getuser',getUser)
+
+/* Put => Update User */
+userRoutes.put('/updateuser',userverify,updateUser)
+
+/* Delete => LogOut User */
+userRoutes.delete('/logout',userverify,logout)
+
 
 module.exports = userRoutes
