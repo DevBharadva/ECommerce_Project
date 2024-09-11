@@ -152,10 +152,37 @@ exports.updateUser = async(req,res)=>{
 
 exports.logout = async(req,res)=>{
   try {
-      res.redirect('/api/user/login')
-      res.status(202).json({msg:"user logut, token "});
+    let user = req.user;
+
+      // res.redirect('/api/user/login')
+      res.status(202).json({user,msg:"user logut, reset token "});
   } catch (error) {
     console.log(error);
     res.status(500).json({msg:"Internal Server Error"})
+  }
+}
+
+/* ------------------- Changed  Password ------------------- */
+
+exports.Changepassword = async(req,res)=>{
+  try {
+      let {old_password,new_password,confirm_password} = req.body;
+      let checkPassword = await bcrypt.compare(old_password,req.user.password);
+      if (!checkPassword) {
+          res.json({message:"password is incorrect..."});
+      }
+      if (new_password != confirm_password) {
+          res.json({message:"not match confirm password..."})
+      }
+      let hashPassword = await bcrypt.hash(new_password,10);
+      new_password = await User.findByIdAndUpdate(
+          req.user._id,
+          {$set:{password:hashPassword}}
+      )
+      res.json({message:"password is updated",new_password});
+  }
+  catch (error) {
+      console.log(error);
+      res.status(500).json({message:"internal server error"});
   }
 }

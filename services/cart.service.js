@@ -1,8 +1,8 @@
 const Cart = require('../model/cart.model');
 
 class cartService {
+    
     /* Add to Cart */
-
     async cartCreate (body){
             return await Cart.create(body)
     };

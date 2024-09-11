@@ -7,20 +7,30 @@ exports.addNewOrder = async (req, res) => {
     try {
         console.log("user: ->>>>", req.user);
         
-        let cart = await Cart.find({ user: req.user._id}).populate("productId");
-        console.log("Cart: ------> ",cart);
+        let cart = await Cart.find({ user: req.user._id, isDelete: false }).populate("productId");
+        console.log("Cart: ------> ", cart);
+
+        // Check if the cart is empty
+        if (cart.length === 0) {
+            return res.status(400).json({ message: 'Cart is empty' });
+        }
         
-        let orderItem = cart.map((item) => ({
-            productId: item.productId._id,
-            quantity: item.quantity,
-            price: item.productId.productPrice,
-            totalAmount: item.quantity * item.productId.productPrice
-        }));
+        let orderItem = cart.map((item) => {
+            if (!item.productId) {
+                throw new Error('Product not found for cart item');
+            }
 
-        console.log("Order Items: -----> ",orderItem);
+            return {
+                productId: item.productId._id,
+                quantity: item.quantity,
+                price: item.productId.ProductPrice,
+                totalAmount: item.quantity * item.productId.ProductPrice
+            };
+        });
 
-        let amount = orderItem.reduce((total, item) => (total += item.totalAmount), 0);
-        // console.log(amount);
+        console.log("Order Items: -----> ", orderItem);
+
+        let amount = orderItem.reduce((total, item) => total + item.totalAmount, 0);
         
         let order = await Order.create({
             userId: req.user._id,
@@ -30,10 +40,10 @@ exports.addNewOrder = async (req, res) => {
         console.log(order);
         
         await Cart.updateMany({ user: req.user._id, isDelete: false }, { isDelete: true });
-        res.json({ message: 'order placed...', order });
+        res.json({ message: 'Order placed successfully', order });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'internal server error...' });
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
