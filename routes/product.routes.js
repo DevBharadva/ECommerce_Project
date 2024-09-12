@@ -17,6 +17,7 @@ productRoutes.get('/getall',userverify,getAllProduct)
 productRoutes.get('/getproduct',getProduct)
 
 /* ----------- Update Product ---------- */
+
 productRoutes.put('/update',updateProduct)
 
 /* ------------Delete Product ------------ */
@@ -24,6 +25,7 @@ productRoutes.put('/update',updateProduct)
 productRoutes.delete('/delete',userverify,deleteProduct)
 
 /* ---------- Add Revivew in Product ---------- */
+
 productRoutes.post('/addrevivew',userverify,addReview)
 
 module.exports = productRoutes;

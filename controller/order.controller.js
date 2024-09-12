@@ -47,3 +47,19 @@ exports.addNewOrder = async (req, res) => {
     }
 };
 
+exports.deleteOrder = async(req ,res)=>{
+    try {
+        let id = req.query._id;
+        // let order = await Order.findById(id);
+        let order = await Order.findOneAndUpdate(
+            {_id:id},
+            {$set:{isDelete:true}},
+            {new:true}
+        )
+        res.json({message:"deleted",order})
+    } 
+    catch (error) {
+         console.error(error);
+         res.status(500).json({ message: 'Internal server error' });
+     }
+}
