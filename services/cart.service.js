@@ -20,4 +20,5 @@ class cartService {
     }
     }
 
+    module.exports  =  cartService;
 

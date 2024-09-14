@@ -51,7 +51,7 @@ exports.singup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    let user = await User.findOne({
+    let user = await userservice.getUser({
       email: req.body.email,
       isDelete: false,
     });

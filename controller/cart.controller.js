@@ -2,6 +2,7 @@ const Cart = require('../model/cart.model');
 
 
 /* ------------------ Admin side get carts ----------------*/
+
 exports.getCart = async (req,res)=>{
     try {
         let id = await req.params.id;
