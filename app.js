@@ -9,6 +9,8 @@ const userRotues = require('./routes/user.routes')
 const productRoutes = require('./routes/product.routes');
 const cartRotues = require('./routes/cart.routes');
 const orderrotues = require('./routes/order.routes');
+const addressRoutes = require('./routes/address.routes');
+const reviewRoutes = require('./routes/review.routes');
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended:true}))
@@ -23,6 +25,8 @@ app.use('/api/user',userRotues)
 app.use('/api/product',productRoutes)
 app.use('/api/cart',cartRotues)
 app.use('/api/order',orderrotues)
+app.use("/api/user/",addressRoutes)
+app.use('/api/product',reviewRoutes)
 
 
 app.listen(port,()=>{

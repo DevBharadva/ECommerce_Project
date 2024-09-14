@@ -25,10 +25,6 @@ const addressSchema = mongoose.Schema({
         type: String,
         trim: true
     },
-    isDefault:{
-        type: Boolean,
-        default: false
-    },
     isDelete: {
         type: Boolean,
         default: false

@@ -1,6 +1,6 @@
 const express = require('express');
 const productRoutes =  express.Router();
-const { addNewProduct, getAllProduct, getProduct, updateProduct, deleteProduct, addReview } = require('../controller/product.controller');
+const { addNewProduct, getAllProduct, getProduct, updateProduct, deleteProduct } = require('../controller/product.controller');
 const {userverify} = require('../helper/tokenVerify')
 
 
@@ -26,6 +26,6 @@ productRoutes.delete('/delete',userverify,deleteProduct)
 
 /* ---------- Add Revivew in Product ---------- */
 
-productRoutes.post('/addrevivew',userverify,addReview)
+// productRoutes.post('/addrevivew',userverify,addReview)
 
 module.exports = productRoutes;

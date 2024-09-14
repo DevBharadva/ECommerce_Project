@@ -1,21 +1,19 @@
 const express = require('express');
 const addressRoutes = express.Router();
 const { createaddress, getuseraddresses, updateaddress, deleteaddress, setdefaultaddress } = require('../controller/address.controller');
-const { verifyToken } = require("../helper/tokenVerify");
+const { userverify } = require("../helper/tokenVerify");
 
 
-addressRoutes.post('/addaddress', verifyToken, createaddress );
+addressRoutes.post('/addaddress' ,userverify, createaddress );
 
-addressRoutes.get('/getaddresses', verifyToken, getuseraddresses);
+addressRoutes.get('/getaddresses' ,userverify, getuseraddresses);
 
-addressRoutes.put('/editaddress', verifyToken, updateaddress);
+addressRoutes.put('/editaddress' ,userverify, updateaddress);
 
-addressRoutes.delete('/deleteaddress', verifyToken, deleteaddress);
+addressRoutes.delete('/deleteaddress' ,userverify, deleteaddress);
 
-addressRoutes.patch('/setdefaultaddress', verifyToken, setdefaultaddress);
-
+addressRoutes.patch('/setdefaultaddress' ,userverify, setdefaultaddress);
 
 module.exports = addressRoutes;
-
 
 //  addaddress, editaddress, deleteaddress, setdefaultaddress, getaddress

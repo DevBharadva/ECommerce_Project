@@ -6,14 +6,13 @@ exports.createaddress = async (req, res) => {
     try {
         const { isDefault } = req.body;
         const userId = req.user._id;
-        if (isDefault) { await Address.updateMany({ userId }, { isDefault: false }); }
+        if (isDefault) { await Address.updateMany({ userId }); }
         const address = await Address.create({ userId, ...req.body });
         res.status(201).json({ message: 'Address created successfully...', address });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal server error...' });
     }
-
 };
 
 
